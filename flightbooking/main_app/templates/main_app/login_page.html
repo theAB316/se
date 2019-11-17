@@ -1,0 +1,27 @@
+{% extends 'main_app/base.html' %}
+
+{% block body %}    
+<h3>Already a member?</h3>
+
+  <form class="form-horizontal" action="{% url 'main_app:Index' %}" 
+  method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label class="control-label col-sm-1">Username</label>
+      <input col-sm-offset-2 type="text" name="username">
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-1">Password</label>
+      <input type="password" name="password">
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-1 col-sm-10">
+        <button type="submit" class="btn btn-success" name="login" name="login-submit">
+        Search Hotels</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block head %}
+<title>List of Hotels</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static 'main_app/index.css' %}">
+<script type="text/javascript">
+    function selection_page_link(){
+        return "{% url 'main_app:SelectionPage' %}"
+    }
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Airlines</th>
+                                <th>Name</th>
+                                <th>Departure</th>
+                                <th>Arrival</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for flight in results %}
+                            <tr onclick = "window.location = selection_page_link()">
+                                <td>
+                                    <img src="{% static 'main_app/images/' %}{{ flight.airlines }} + '.jpg'"
+                                         height="150" width="250">
+                                </td>
+                                {% csrf_token %}
+                                <td>{{ flight.airlines }}</td>
+                                <td>{{ flight.name }}</td>
+                                <td>{{ flight.departure_city }}</td>
+                                <td>{{ flight.arrival_city }}</td>
+                                <td>{{ flight.departure_date }}</td>
+                                <td> <!-- rooms --> </td>
+                            
+                            </tr>
+
+                                
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+
+
+

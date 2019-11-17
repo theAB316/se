@@ -1,0 +1,134 @@
+{% extends 'main_app/base.html' %}
+
+{% block head %}
+  <script type="text/javascript">
+    timer = null
+    search = null
+    url = null
+    table = null
+    function get_data(){
+        table = document.getElementById("container")
+        table.innerHTML = "";
+        search=document.getElementById("city").value;
+
+        if(search.length == 0){
+          table.innerHTML = "";
+        }
+
+        if(timer){
+          clearTimeout(timer);
+        }
+        timer=setTimeout(send_data,1000)
+    }
+    function send_data(){
+      xhr = new XMLHttpRequest()
+      url="http://localhost:8000/get_cities?city="+search;
+      xhr.onreadystatechange=show_result;
+      xhr.open("GET",url,true);
+      xhr.send();
+    }
+    function show_result(){
+      if(this.readyState == 4 && this.status == 200){
+        cities = JSON.parse(this.response)
+        //table = document.getElementById("container");
+        for(city of cities){
+          var new_div = document.createElement("div");
+          new_div.innerHTML = city;
+          new_div.onclick = fill_field;
+          table.appendChild(new_div);
+        }
+        table.style.display = "block";
+      }
+    }
+
+    function fill_field(e){
+      search = document.getElementById("city");
+      search.value = e.target.innerHTML;
+      table.innerHTML = "";
+    }
+
+  </script>
+{% endblock %}
+{% block body %}
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-sm-12 col-md-7">
+        <div class="panel panel-default">
+          <div class="panel-body">
+
+            <h3>Book the perfect flight :)))</h3>
+
+            <form class="form-horizontal" action="{% url 'main_app:SearchPage' %}" 
+            method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              
+              <div class="form-group">
+                <label class="control-label col-sm-3">Departure City</label>
+                <input col-sm-offset-2 type="text" name="departure-city">
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-3">Arrival City</label>
+                <input type="text" name="arrival-city">
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-3">Departure Date</label>
+                <input type="date" name="departure-date">
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-3">Passengers</label>
+                <select id="passengers" name = "passengers"> 
+                  <option value = "1"> 1 </option>
+                  <option value = "2"> 2 </option>
+                  <option value = "3"> 3 </option>
+                  <option value = "4"> 4 </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-3">City</label>
+                <table border="0" cellpadding="0">
+                  <tr>
+                    <td>
+                      <!-- dont remove -->
+                    </td>
+                    <td>
+                      <input type="text" name="city" id = "city" onkeyup="get_data()">
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td>
+                      
+                    </td>
+                    <td>
+                      <div id="container"></div>
+                    </td>  
+                  </tr>
+                </table>
+              </div>
+
+
+              <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-10">
+                  <button type="submit" class="btn btn-success" name="search-submit">
+                  Search Hotels</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
+
+
+
+    
+
