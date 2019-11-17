@@ -2,45 +2,37 @@
 
 
 {% block head %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Static Example</title>
-
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-  <!-- XDSoft DateTimePicker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
-
+	<title>Bootstrap Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 {% endblock %}
 
 {% block body %}
-
-<!doctype html>
-<html lang="en">
-<head>
-
-</head>
-<body>
-	<div>
-		Check In Date: <br>
-		<input id="datetimepicker" type="text">
+	<div class="jumbotron text-center">
+	  <h2>Your {{ flight.airlines }} ticket!</h2>
 	</div>
-	<div>
-		Check Out Date <br>
-		<input  id="datetimepicker2" type="text">
-
+	  
+	<div class="container">
+	  <div class="row">
+	    <div class="col-sm-4">
+	      <h2>Departure</h3>
+	      <h3>{{ flight.airlines }} {{ flight.name }}</h3>
+	      <h3>Departure City: {{ flight.departure_city }}</h3>
+	      <h3>Departure Time: {{ flight.departure_time }}</h3>
+	    </div>
+	    <div class="col-sm-4">
+	      <h2>Arrival</h2>
+	      <h3>Arrival City: {{ flight.arrival_city }}</h3>
+	      <h3>Arrival Time: {{ flight.arrival_time }}</h3>
+	    </div>
+	    <div class="col-sm-4">
+	      <h2>Seat Details</h2>        
+	      <h3>Seat Number: {{ seat }}</h3>
+	      <h3>Class: {{ class }}</h3>
+	    </div>
+	  </div>
 	</div>
-	
-	
-	<script>
-	$(function () {
-	  $("#datetimepicker").datetimepicker();
-	  $("#datetimepicker2").datetimepicker();
-	});
-	</script>
-
-</body>
-</html>
 {% endblock %}

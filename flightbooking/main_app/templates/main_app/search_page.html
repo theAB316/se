@@ -10,7 +10,14 @@
 <link rel="stylesheet" href="{% static 'main_app/index.css' %}">
 <script type="text/javascript">
     function selection_page_link(){
-        return "{% url 'main_app:SelectionPage' %}"
+        url="http://localhost:8000/selection_page";
+        flight_name = document.getElementById("name").innerHTML;
+
+        var f = document.getElementById("form");
+
+        var i = document.getElementById("flight-name"); 
+        i.setAttribute('value', flight_name);
+        f.submit();
     }
 </script>
 {% endblock %}
@@ -36,18 +43,23 @@
                         </thead>
                         <tbody>
                             {% for flight in results %}
-                            <tr onclick = "window.location = selection_page_link()">
+                            <tr onclick = "selection_page_link()">
                                 <td>
-                                    <img src="{% static 'main_app/images/' %}{{ flight.airlines }} + '.jpg'"
-                                         height="150" width="250">
+                                    <!-- <img src="{% static 'main_app/images/' %}{{ flight.airlines }} + '.jpg'"
+                                         height="150" width="250"> -->
                                 </td>
-                                {% csrf_token %}
                                 <td>{{ flight.airlines }}</td>
-                                <td>{{ flight.name }}</td>
+                                <td id="name">{{ flight.name }}</td>
                                 <td>{{ flight.departure_city }}</td>
                                 <td>{{ flight.arrival_city }}</td>
                                 <td>{{ flight.departure_date }}</td>
                                 <td> <!-- rooms --> </td>
+
+                                <form style="display:None" id="form" action="{% url 'main_app:SelectionPage' %}" 
+                                    method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input id="flight-name" name="flight-name" style="display:None">
+                                </form>
                             
                             </tr>
 

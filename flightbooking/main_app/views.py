@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import random
+
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
@@ -41,13 +43,15 @@ class GetCities(APIView):
 class SelectionPage(TemplateView):
 	template_name = 'main_app/selection_page.html'
 
-	def get(self, request):
-		session_object = Session.objects.get(pk = 1)
-		check_in = session_object.check_in
-		check_out = session_object.check_out
-		print("\n\n\n\n\n\n\n\n\n", check_in, check_out)
-		return render(request, self.template_name, {'check_in': check_in,
-		 'check_out': check_out})
+	def post(self, request):
+		seat = str(random.randint(1, 40)) + chr(random.randint(65, 77))
+		class_ = "Economy"
+
+		flight_name = request.POST.get("flight-name", " ")
+		flight = Flight.objects.get(name = flight_name)
+
+		return render(request, self.template_name, {'flight':flight, 'seat':seat, 'class':class_})
+
 
 class SearchPage(TemplateView):
 	template_name = 'main_app/search_page.html'
@@ -70,7 +74,7 @@ class SearchPage(TemplateView):
 				and arrival_city.lower() in flight.arrival_city.lower()):
 				results.append(flights_dict[i])
 
-		print(results)
+		
 
 		return render(request, self.template_name, {'results':results})
 
