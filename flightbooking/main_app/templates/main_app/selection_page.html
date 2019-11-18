@@ -1,5 +1,5 @@
 {% extends 'main_app/base.html' %}
-
+{% load static %}
 
 {% block head %}
 	<title>Bootstrap Example</title>
@@ -17,31 +17,36 @@
 	  
 	<div class="container">
 	  <div class="row">
-	    <div class="col-sm-4">
+	  	<div class="col-sm-3">
+	  		 <img src="{% static 'main_app/images/' %}{{ flight.image_url }}"
+                height="100" width="150">
+	  	</div>
+	    <div class="col-sm-3">
 	      <h2>Departure</h3>
 	      <h3>{{ flight.airlines }} {{ flight.name }}</h3>
 	      <h3>Departure City: {{ flight.departure_city }}</h3>
 	      <h3>Departure Time: {{ flight.departure_time }}</h3>
 	    </div>
-	    <div class="col-sm-4">
+	    <div class="col-sm-3">
 	      <h2>Arrival</h2>
 	      <h3>Arrival City: {{ flight.arrival_city }}</h3>
 	      <h3>Arrival Time: {{ flight.arrival_time }}</h3>
 	    </div>
-	    <div class="col-sm-4">
-	      <h2>Seat Details</h2>        
+	    <div class="col-sm-3">
+	      <h2>Seat Details</h2> 
+	      <h3>First Name: </h3>
+	      <h3>Last Name: </h3>       
 	      <h3>Seat Number: {{ seat }}</h3>
 	      <h3>Class: {{ class }}</h3>
 	    </div>
 	  </div>
 	  <div class="row">
-	  	<div class="col-sm-4"></div>
-	  	<div class="col-sm-4"></div>
-	  	<div class="col-sm-4">
-		  <form>
-			<input type=button value="Print Ticket" onClick="javascript:window.print()">
-		  </form>
-		</div>
+	  	<div class="col-sm-12" style="margin-top: 15%"></div>
+	  	<div class="col-sm-12" style="margin-left: 90%">
+	  		<form>
+				<input type=button value="Print Ticket" onClick="javascript:window.print()">
+		  	</form>
+	  	</div>
 	  </div>
 	</div>
 {% endblock %}

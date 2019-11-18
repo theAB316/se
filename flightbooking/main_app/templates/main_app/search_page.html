@@ -10,7 +10,11 @@
 <link rel="stylesheet" href="{% static 'main_app/index.css' %}">
 <script type="text/javascript">
     function selection_page_link(event){
-        flight_name = event.target.parentNode.children[2].innerHTML;
+        if(event.target.tagName == "IMG"){
+            flight_name = event.target.parentNode.parentNode.children[2].innerHTML;
+        }else{
+            flight_name = event.target.parentNode.children[2].innerHTML;
+        }
         var f = document.getElementById("form");
         
         var i = document.getElementById("flight-name");
