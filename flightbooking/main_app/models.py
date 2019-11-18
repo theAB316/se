@@ -35,7 +35,7 @@ class Flight(models.Model):
 	startPrice = models.FloatField(default = 0.0)
 	endPrice = models.FloatField(default = 0.0)
 
-	image = models.ImageField(blank=True)
+	image_url = models.CharField(default="empty", max_length=100)
 
 	def __str__(self):
 		return (self.airlines + " " +self.name + " " + self.departure_city + " " 

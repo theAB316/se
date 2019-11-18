@@ -9,13 +9,11 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="{% static 'main_app/index.css' %}">
 <script type="text/javascript">
-    function selection_page_link(){
-        url="http://localhost:8000/selection_page";
-        flight_name = document.getElementById("name").innerHTML;
-
+    function selection_page_link(event){
+        flight_name = event.target.parentNode.children[2].innerHTML;
         var f = document.getElementById("form");
-
-        var i = document.getElementById("flight-name"); 
+        
+        var i = document.getElementById("flight-name");
         i.setAttribute('value', flight_name);
         f.submit();
     }
@@ -43,28 +41,24 @@
                         </thead>
                         <tbody>
                             {% for flight in results %}
-                            <tr onclick = "selection_page_link()">
+                            <tr onclick = "selection_page_link(event)">
                                 <td>
-                                    <!-- <img src="{% static 'main_app/images/' %}{{ flight.airlines }} + '.jpg'"
-                                         height="150" width="250"> -->
+                                    <img src="{% static 'main_app/images/' %}{{ flight.image_url }}"
+                                         height="100" width="150">
                                 </td>
                                 <td>{{ flight.airlines }}</td>
-                                <td id="name">{{ flight.name }}</td>
+                                <td name="name">{{ flight.name }}</td>
                                 <td>{{ flight.departure_city }}</td>
                                 <td>{{ flight.arrival_city }}</td>
                                 <td>{{ flight.departure_date }}</td>
-                                <td> <!-- rooms --> </td>
-
-                                <form style="display:None" id="form" action="{% url 'main_app:SelectionPage' %}" 
-                                    method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <input id="flight-name" name="flight-name" style="display:None">
-                                </form>
-                            
                             </tr>
-
-                                
                             {% endfor %}
+                            <form style="display:None" id="form" action="{% url 'main_app:SelectionPage' %}" method="post" 
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                                <input id="flight-name" name="flight-name" 
+                                style="display:None">
+                            </form>
                         </tbody>
                     </table>
                 </div>
