@@ -3,7 +3,7 @@
 {% block body %}    
 <h3>Already a member?</h3>
 
-  <form class="form-horizontal" action="{% url 'main_app:Index' %}" 
+  <form class="form-horizontal" action="{% url 'main_app:LoginPage' %}" 
   method="post" enctype="multipart/form-data">
     {% csrf_token %}
     
@@ -20,7 +20,7 @@
     <div class="form-group">
       <div class="col-sm-offset-1 col-sm-10">
         <button type="submit" class="btn btn-success" name="login" name="login-submit">
-        Search Hotels</button>
+        Login</button>
       </div>
     </div>
   </form>

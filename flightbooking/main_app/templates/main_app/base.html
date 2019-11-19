@@ -30,14 +30,28 @@
       <!-- Items -->
       <div class="collapse navbar-collapse" id="topNavBar">
         <ul class="nav navbar-nav navbar-right">
+          {% if request.session.username  %}
+            <li>
+              <a href="#">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span >&nbsp;
+                Hi, {{ request.session.username}}
+              </a>
+            </li>
+          {% endif %}
           <li>
             <a href="#">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;FAQ
+              <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span >&nbsp;FAQ
             </a>
           </li>
           <li>
-            <a href="{% url 'main_app:LoginPage' %}">
-              <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Login
+            <a href="{% url 'main_app:RegisterPage' %}">
+              <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; 
+
+              {% if 'username' in request.session  %}
+                  Logout
+              {% else %}
+                  Register/Login
+              {% endif %}
             </a>
           </li>
         </ul>

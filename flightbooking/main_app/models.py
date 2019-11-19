@@ -5,11 +5,12 @@ from django.db import models
 from datetime import datetime
 
 # Create your models here.
-class Session(models.Model):
-	name = models.CharField(max_length = 50)
+'''class Session(models.Model):
+	flight_name = models.CharField(max_length = 50)
+	username = models.CharField(max_length = 50)
 
 	def __str__(self):
-		return name
+		return self.flight_name + " " +self.username'''
 
 class User(models.Model):
 	name = models.CharField(max_length = 50)
@@ -35,7 +36,7 @@ class Flight(models.Model):
 	startPrice = models.FloatField(default = 0.0)
 	endPrice = models.FloatField(default = 0.0)
 
-	image = models.ImageField(blank=True)
+	image_url = models.CharField(default="empty", max_length=100)
 
 	def __str__(self):
 		return (self.airlines + " " +self.name + " " + self.departure_city + " " 
