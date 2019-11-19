@@ -5,11 +5,12 @@ from django.db import models
 from datetime import datetime
 
 # Create your models here.
-class Session(models.Model):
-	name = models.CharField(max_length = 50)
+'''class Session(models.Model):
+	flight_name = models.CharField(max_length = 50)
+	username = models.CharField(max_length = 50)
 
 	def __str__(self):
-		return name
+		return self.flight_name + " " +self.username'''
 
 class User(models.Model):
 	name = models.CharField(max_length = 50)
