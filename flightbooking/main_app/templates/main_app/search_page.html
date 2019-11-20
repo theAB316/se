@@ -57,7 +57,7 @@
                                 <td>{{ flight.departure_date }}</td>
                             </tr>
                             {% endfor %}
-                            <form style="display:None" id="form" action="{% url 'main_app:SelectionPage' %}" method="post" 
+                            <form style="display:None" id="form" action="{% url 'main_app:UserDetailsPage' %}" method="post" 
                             enctype="multipart/form-data">
                             {% csrf_token %}
                                 <input id="flight-name" name="flight-name" 
