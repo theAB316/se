@@ -5,10 +5,11 @@ app_name = 'main_app'
 
 urlpatterns = [
     path('', views.Index.as_view(), name = 'Index'),
-    path('search_page', views.SearchPage.as_view(), name='SearchPage'),
-    path('login_page', views.LoginPage.as_view(), name='LoginPage'),
+    path('search', views.SearchPage.as_view(), name='SearchPage'),
+    path('login', views.LoginPage.as_view(), name='LoginPage'),
     path('get_cities', views.GetCities.as_view(), name = 'GetCities'),
-    path('selection_page', views.SelectionPage.as_view(), name = 'SelectionPage'),
+    path('selection', views.SelectionPage.as_view(), name = 'SelectionPage'),
     path('register', views.UserFormView.as_view(), name='RegisterPage'),
+    path('userdetails', views.UserDetailsView.as_view(), name='UserDetailsPage'),
 
 ]
