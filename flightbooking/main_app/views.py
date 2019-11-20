@@ -42,7 +42,6 @@ class UserFormView(TemplateView):
 
 		#print(type(form),form, "123\n\n\n\n")
 		un = request.POST.get("username", " ")
-		print(request.POST)
 
 		if(form.is_valid()):
 			user = form.save(commit=False)#not saved to db yet
@@ -90,16 +89,28 @@ class GetCities(APIView):
 		print(cities)
 		return JsonResponse(list(cities), safe=False)
 
-class SelectionPage(TemplateView):
-	template_name = 'main_app/selection_page.html'
+class TicketPage(TemplateView):
+	template_name = 'main_app/ticket_page2.html'
 
 	def post(self, request):
+		first_name = request.POST.get("first_name", " ")
+		last_name = request.POST.get("last_name", " ")
+		age = request.POST.get("age", " ")
+		gender = request.POST.get("gender", " ")
+
+
+
 		seat = str(random.randint(1, 40)) + chr(random.randint(65, 77))
 		class_ = "Economy"
 		flight_name = request.POST.get("flight_name", " ")
 		flight = Flight.objects.get(name = flight_name)
 
-		return render(request, self.template_name, {'flight':flight, 'seat':seat, 'class':class_})
+		print("\n\n\n", flight)
+
+		results = {'flight':flight, 'seat':seat, 'class':class_, 
+				   'first_name':first_name, 'last_name':last_name, 'age':age, 'gender':gender}
+
+		return render(request, self.template_name, {'results':results})
 
 
 class SearchPage(TemplateView):
@@ -109,6 +120,8 @@ class SearchPage(TemplateView):
 		departure_city = request.POST.get("departure-city", " ")
 		arrival_city = request.POST.get("arrival-city", " ")
 		departure_date = request.POST.get("departure-date", " ")
+
+		request.session["passengers"] = request.POST.get("passengers", " ")
 
 		flights = Flight.objects.all()
 
@@ -144,6 +157,25 @@ class LoginPage(TemplateView):
 
 
 		return render(request, self.template_name)
+
+class SelectionPage(TemplateView):
+	template_name = 'main_app/selection_page2.html'
+
+	def post(self, request):
+		flight_name = request.POST.get("flight-name", " ")
+		flight = Flight.objects.get(name = flight_name)
+
+		request.session["flight_name"] = flight_name
+
+		request.session["departure_time"] = str(flight.departure_time)
+		request.session["arrival_time"] = str(flight.arrival_time)
+
+		request.session["departure_city"] = str(flight.departure_city)
+		request.session["arrival_city"] = str(flight.arrival_city)
+
+
+
+		return render(request, self.template_name, {'flight':flight})
 	
 
 class UserDetailsView(TemplateView):
@@ -152,9 +184,8 @@ class UserDetailsView(TemplateView):
 
 	#after submit
 	def post(self, request):
-		flight_name = request.POST.get("flight-name", " ")
+		flight_name = request.session.get("flight_name", " ")
 		flight = Flight.objects.get(name=flight_name)
-		print("\n\n\n\n\n", flight)
 
 		departure_city = flight.departure_city
 		arrival_city = flight.arrival_city
@@ -163,6 +194,7 @@ class UserDetailsView(TemplateView):
 		arrival_time = flight.arrival_time
 		
 		#might need session
+
 		data_dict = {'flight_name': flight_name,
 		 'departure_city': departure_city,'arrival_city': arrival_city,
 		 'departure_time': departure_time,'arrival_time': arrival_time,
@@ -173,6 +205,7 @@ class UserDetailsView(TemplateView):
 		form.fields['arrival_city'].widget.attrs['readonly'] = True
 		form.fields['departure_time'].widget.attrs['readonly'] = True
 		form.fields['arrival_time'].widget.attrs['readonly'] = True
+
 		return render(request, self.template_name, {'form':form})
 
 

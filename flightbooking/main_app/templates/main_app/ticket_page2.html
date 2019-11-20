@@ -1,0 +1,75 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block head %}
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>Your {{ results.flight.airlines }} ticket!</h1>      
+    <p></p>
+  </div>
+</div>
+  
+<div class="container-fluid bg-3 text-center">    
+  <h2>Flight: {{ results.flight.airlines }} {{ results.flight.name }}</h2><br>
+  <div class="row">
+    <div class="col-sm-2">
+      <!-- <p>Some text..</p> -->
+      <img src="{% static 'main_app/images/' %}{{ results.flight.image_url }}" 
+      	   class="img-responsive" style="width:80%;" alt="Image">
+    </div>
+    <div class="col-sm-2"> 
+      <h2>Passenger</h2>
+      <h3>Last Name: {{ results.last_name }}</h3>       
+      <h3>First Name: {{ results.first_name }}</h3> 
+      <h3>Gender: {{ results.gender }}</h3> 
+    </div>
+    <div class="col-sm-2"> 
+      <h2>Arrival</h2>
+      <h3>City: {{ results.flight.arrival_city }}</h3>
+      <h3>Time: {{ results.flight.arrival_time }}</h3>
+    </div>
+    <div class="col-sm-2">
+      <h2>Departure</h3>
+      <h3>City: {{ results.flight.departure_city }}</h3>
+      <h3>Time: {{ results.flight.departure_time }}</h3>
+    </div>
+    <div class="col-sm-2">
+      <h2>Seat</h3>
+      <h3>Seat: {{ results.seat }}</h3>
+      <h3>Class: {{ results.class }}</h3>
+    </div>
+    <div class="col-sm-2">
+      <h2>Date</h3>
+      <h3>{{ results.flight.departure_date }}</h3>
+    </div>
+  </div>
+</div><br>
+
+<footer class="container-fluid text-center">
+	<form>
+		<input class="btn btn-success" type=button value="Print Ticket" onClick="javascript:window.print()">
+	</form>
+</footer>
+{% endblock %}

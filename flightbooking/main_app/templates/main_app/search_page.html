@@ -41,6 +41,8 @@
                                 <th>Departure</th>
                                 <th>Arrival</th>
                                 <th>Date</th>
+                                <th>Dept Time</th>
+                                <th>Arr Time</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,10 +56,14 @@
                                 <td name="name">{{ flight.name }}</td>
                                 <td>{{ flight.departure_city }}</td>
                                 <td>{{ flight.arrival_city }}</td>
+
                                 <td>{{ flight.departure_date }}</td>
+
+                                <td>{{ flight.departure_time }}</td>
+                                <td>{{ flight.arrival_time }}</td>
                             </tr>
                             {% endfor %}
-                            <form style="display:None" id="form" action="{% url 'main_app:UserDetailsPage' %}" method="post" 
+                            <form style="display:None" id="form" action="{% url 'main_app:SelectionPage' %}" method="post" 
                             enctype="multipart/form-data">
                             {% csrf_token %}
                                 <input id="flight-name" name="flight-name" 
