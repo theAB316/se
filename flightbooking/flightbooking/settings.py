@@ -100,6 +100,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# mailing service
+EMAIL_USE_TLS = True
+#EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'balubadmash123@gmail.com'
+EMAIL_HOST_PASSWORD = 'qwertybalu'
+EMAIL_PORT = 587
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

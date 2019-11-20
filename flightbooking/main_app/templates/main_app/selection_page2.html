@@ -58,39 +58,51 @@
       <br />	
       <img src="{% static 'main_app/images/' %}{{ flight.image_url }}" class="img-responsive" style="width:100%;">
     </div>
-
-    <div class="col-sm-9">
+    <table>
+      <th></th>
+      <tr></tr>
+    </table>
+    <div class="col-sm-9" style="width: 50%">
       <h4><small>FLIGHT DETAILS</small></h4>
       <hr>
-      <h3>Flight - {{ flight.airlines }} {{flight.name }}</h3>
-      <h3>Departure Time
-      	<input style="margin-left:10%" id="departure-time" name="departure-time" type="text" 
+      <h3>
+        <span>Flight:</span> 
+        <span style="float: right;">{{ flight.airlines }} {{flight.name }}</span>
+      </h3>
+      <h3>Departure Time:
+      	<input style="width:20%;float:right;text-align: center;" id="departure-time" name="departure-time" type="text" 
       	value="{{ request.session.departure_time }}">
       </h3>
-      <h3>Arrival Time
-      	<input style="margin-left: 12%" id="arrival-time" name="arrival-time" type="text" 
+      <h3>Arrival Time:
+      	<input style="width:20%;float:right;text-align: center;" id="arrival-time" name="arrival-time" type="text" 
       	value="{{ request.session.arrival_time }}">
       </h3>
-	  <h3>Departure City {{ flight.departure_city }}</h3>
-	  <h3>Arrival City {{ flight.arrival_city }}</h3>
+	  <h3><span>Departure City: </span>
+      <span style="float:right;">{{ flight.departure_city }}</span>
+    </h3>
+	  <h3><span>Arrival City:</span> 
+      <span style="float: right;">{{ flight.arrival_city }}</span>
+    </h3>
 		
       <br><br>
       
       <h4><small>SEAT DETAILS</small></h4>
       <hr>
-      <h3>Passengers <span id="passengers">{{ request.session.passengers }}</span></h3>
+      <h3>Passengers 
+      <span style="float: right;" id="passengers">{{ request.session.passengers }}</span>
+      </h3>
       <h3>Flight Class
 	  	  <div id="business" style="display:None">{{ flight.endPrice }}</div>
 	  	  <div id="economy" style="display:None">{{ flight.startPrice }}</div>	
 
-	      <select onchange="getPrice()" id="flight-class" name = "flight-class"> 
+	      <select style="float: right;" onchange="getPrice()" id="flight-class" name = "flight-class"> 
 	          <option value = "Business"> Business </option>
 	          <option selected value = "Economy"> Economy </option>
 	      </select>
 	   </h3>
 
 	   <h3>Price
-	   		<span id="result">Rs. {{ flight.startPrice }}</span>
+	   		<span style="float: right;" id="result">Rs. {{ flight.startPrice }}</span>
 	   </h3>
 	   <input class="btn btn-success" id="check-out" type="submit" value="Book Flight" style="margin-left:45%">		      
       <hr>
