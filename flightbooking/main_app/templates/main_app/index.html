@@ -3,14 +3,22 @@
 {% block head %}
   <script type="text/javascript">
     timer = null
+    result_box = null
     search = null
     url = null
     table = null
-    function get_data(){
-        table = document.getElementById("container")
-        table.innerHTML = "";
-        search=document.getElementById("city").value;
-
+    function get_data(e){
+        if(e.target.id == "city1"){
+          result_box = "city1";
+          table = document.getElementById("container1")
+          table.innerHTML = "";
+          search=document.getElementById("city1").value;
+        }else{
+          result_box = "city2";
+          table = document.getElementById("container2")
+          table.innerHTML = "";
+          search=document.getElementById("city2").value;
+        }
         if(search.length == 0){
           table.innerHTML = "";
         }
@@ -18,11 +26,12 @@
         if(timer){
           clearTimeout(timer);
         }
-        timer=setTimeout(send_data,1000)
+        timer=setTimeout(send_data,100)
     }
     function send_data(){
       xhr = new XMLHttpRequest()
-      url="http://localhost:8000/get_cities?city="+search;
+
+      url="http://localhost:8000/get_cities?city="+search+"&id="+result_box;
       xhr.onreadystatechange=show_result;
       xhr.open("GET",url,true);
       xhr.send();
@@ -42,8 +51,14 @@
     }
 
     function fill_field(e){
-      search = document.getElementById("city");
-      search.value = e.target.innerHTML;
+      console.log(result_box);
+      // if(e.target.id == "city1"){
+      //   search = document.getElementById("city1");
+      // }else{
+      //   search = document.getElementById("city2");      
+      // }
+      document.getElementById(result_box).value = e.target.innerHTML;
+      //search.value = e.target.innerHTML;
       table.innerHTML = "";
     }
 
@@ -65,12 +80,48 @@
               
               <div class="form-group">
                 <label class="control-label col-sm-3">Departure City</label>
-                <input col-sm-offset-2 type="text" name="departure-city">
+                <table border="0" cellpadding="0">
+                  <tr>
+                    <td>
+                      <!-- dont remove -->
+                    </td>
+                    <td>
+                      <input type="text" name="departure-city" id = "city1" onkeyup="get_data(event)">
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td>
+                      
+                    </td>
+                    <td>
+                      <div id="container1"></div>
+                    </td>  
+                  </tr>
+                </table>
               </div>
 
-              <div class="form-group">
+              <div class="form-group">                
                 <label class="control-label col-sm-3">Arrival City</label>
-                <input type="text" name="arrival-city">
+                <table border="0" cellpadding="0">
+                  <tr>
+                    <td>
+                      <!-- dont remove -->
+                    </td>
+                    <td>
+                      <input type="text" name="arrival-city" id = "city2" onkeyup="get_data(event)">
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td>
+                      
+                    </td>
+                    <td>
+                      <div id="container2"></div>
+                    </td>  
+                  </tr>
+                </table>
               </div>
 
               <div class="form-group">

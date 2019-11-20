@@ -20,6 +20,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic import View
 from .forms import UserForm, UserDetailsForm
 
+from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 
 
 # Create your views here.
@@ -75,17 +80,20 @@ class GetCities(APIView):
 	# submission throttling
 	def get(self, request):
 		search = request.GET.get("city", " ")
+		res_id = request.GET.get("id", " ")
 		print("\n\n\n\n\n", search)
 
 		'''cities = Hotel.objects.city.filter(city__icontains=search)
 								print("\n\n\n\n\n", cities)
 								return cities'''
 
-		hotels = Hotel.objects.all()
+		flights = Flight.objects.all()
 		cities = set()
-		for hotel in hotels.iterator():
-			if search.lower() in hotel.city.lower():
-				cities.add(hotel.city)
+		for flight in flights.iterator():
+			if res_id == "city1" and search.lower() in flight.departure_city.lower():
+				cities.add(flight.departure_city)
+			elif res_id == "city2" and search.lower() in flight.arrival_city.lower():
+				cities.add(flight.arrival_city)
 		print(cities)
 		return JsonResponse(list(cities), safe=False)
 
@@ -96,8 +104,9 @@ class TicketPage(TemplateView):
 		first_name = request.POST.get("first_name", " ")
 		last_name = request.POST.get("last_name", " ")
 		age = request.POST.get("age", " ")
+		receiver_email = request.POST.get("email", " ")
+		request.session['receiver_email'] = receiver_email
 		gender = request.POST.get("gender", " ")
-
 
 
 		seat = str(random.randint(1, 40)) + chr(random.randint(65, 77))
@@ -109,6 +118,9 @@ class TicketPage(TemplateView):
 
 		results = {'flight':flight, 'seat':seat, 'class':class_, 
 				   'first_name':first_name, 'last_name':last_name, 'age':age, 'gender':gender}
+
+		'''email = EmailMessage('Here is your ticket from Make My Flight!','balu', 'balubadmash123@gmail.com', to=[receiver_email])
+								email.send()'''
 
 		return render(request, self.template_name, {'results':results})
 
@@ -208,5 +220,34 @@ class UserDetailsView(TemplateView):
 
 		return render(request, self.template_name, {'form':form})
 
+class SendMailPage(APIView):
+	template_name = 'main_app/ticket_page2.html'
+	def get(self, request):
+		'''subject = "Here is your ticket from Make My Flight"
+						
+								dictionary = {"results.flight.name" : request.session['flight_name']}
+						
+								html_content = render_to_string(self.template_name, dictionary) # render with dynamic value
+								text_content = strip_tags(html_content) # Strip the html tag. So people can see the pure text at least.
+								
+								from_email = "balubadmash123@gmail.com"
+								to = request.session['receiver_email']
+								
+								msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+								msg.attach_alternative(html_content, "text/html")
+								msg.send()'''
+		
+		from_email = "balubadmash123@gmail.com"
+		title = "Here is your ticket from Make My Flight"
+		body = "Flight: " + str(request.session["flight_name"]) \
+			+ "\n"+ "Departure time:" \
+			+ str(request.session["departure_time"]) \
+			+ "\n"+ "Arrival time:" + str(request.session["arrival_time"]) \
+			+ "\n"
+		
+		to = request.session['receiver_email']
+		email = EmailMessage(title, body, from_email, to=[to])
+		email.send()
+		return HttpResponse()
 
 
