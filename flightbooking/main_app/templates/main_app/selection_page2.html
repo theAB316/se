@@ -1,0 +1,107 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block head %}
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script>
+	function getPrice(){
+		passengers = document.getElementById("passengers").innerHTML
+		if(document.getElementById("flight-class").value == "Business"){
+			result = document.getElementById("business").innerHTML;
+			total = parseFloat(result) * parseFloat(passengers);
+		} 
+		else{
+			result = document.getElementById("economy").innerHTML;	
+			total = parseFloat(result) * parseFloat(passengers);
+		}
+		document.getElementById("result").innerHTML = "Rs. " + result + " X " + passengers + " = Rs. " + total;
+	}
+  </script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: auto}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;} 
+    }
+  </style>
+{% endblock %}
+{% block body %}
+<form id="form" action="{% url 'main_app:UserDetailsPage' %}" method="post" enctype="multipart/form-data">
+		  {% csrf_token %}
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3">
+      <br />	
+      <img src="{% static 'main_app/images/' %}{{ flight.image_url }}" class="img-responsive" style="width:100%;">
+    </div>
+
+    <div class="col-sm-9">
+      <h4><small>FLIGHT DETAILS</small></h4>
+      <hr>
+      <h3>Flight - {{ flight.airlines }} {{flight.name }}</h3>
+      <h3>Departure Time
+      	<input style="margin-left:10%" id="departure-time" name="departure-time" type="text" 
+      	value="{{ request.session.departure_time }}">
+      </h3>
+      <h3>Arrival Time
+      	<input style="margin-left: 12%" id="arrival-time" name="arrival-time" type="text" 
+      	value="{{ request.session.arrival_time }}">
+      </h3>
+	  <h3>Departure City {{ flight.departure_city }}</h3>
+	  <h3>Arrival City {{ flight.arrival_city }}</h3>
+		
+      <br><br>
+      
+      <h4><small>SEAT DETAILS</small></h4>
+      <hr>
+      <h3>Passengers <span id="passengers">{{ request.session.passengers }}</span></h3>
+      <h3>Flight Class
+	  	  <div id="business" style="display:None">{{ flight.endPrice }}</div>
+	  	  <div id="economy" style="display:None">{{ flight.startPrice }}</div>	
+
+	      <select onchange="getPrice()" id="flight-class" name = "flight-class"> 
+	          <option value = "Business"> Business </option>
+	          <option selected value = "Economy"> Economy </option>
+	      </select>
+	   </h3>
+
+	   <h3>Price
+	   		<span id="result">Rs. {{ flight.startPrice }}</span>
+	   </h3>
+	   <input class="btn btn-success" id="check-out" type="submit" value="Book Flight" style="margin-left:45%">		      
+      <hr>
+
+    </div>
+  </div>
+</div>
+</form>
+
+<footer class="container-fluid">
+  <p>Footer Text</p>
+</footer>
+
+{% endblock %}
