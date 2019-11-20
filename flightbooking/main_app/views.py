@@ -18,7 +18,7 @@ from .models import User, Flight
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import View
-from .forms import UserForm
+from .forms import UserForm, UserDetailsForm
 
 
 
@@ -96,7 +96,7 @@ class SelectionPage(TemplateView):
 	def post(self, request):
 		seat = str(random.randint(1, 40)) + chr(random.randint(65, 77))
 		class_ = "Economy"
-		flight_name = request.POST.get("flight-name", " ")
+		flight_name = request.POST.get("flight_name", " ")
 		flight = Flight.objects.get(name = flight_name)
 
 		return render(request, self.template_name, {'flight':flight, 'seat':seat, 'class':class_})
@@ -145,6 +145,35 @@ class LoginPage(TemplateView):
 
 		return render(request, self.template_name)
 	
+
+class UserDetailsView(TemplateView):
+	form_class = UserDetailsForm
+	template_name = 'main_app/userdetails_page.html'
+
+	#after submit
+	def post(self, request):
+		flight_name = request.POST.get("flight-name", " ")
+		flight = Flight.objects.get(name=flight_name)
+		print("\n\n\n\n\n", flight)
+
+		departure_city = flight.departure_city
+		arrival_city = flight.arrival_city
+
+		departure_time = flight.departure_time
+		arrival_time = flight.arrival_time
+		
+		#might need session
+		data_dict = {'flight_name': flight_name,
+		 'departure_city': departure_city,'arrival_city': arrival_city,
+		 'departure_time': departure_time,'arrival_time': arrival_time,
+		 }
+		form = self.form_class(data_dict)
+		form.fields['flight_name'].widget.attrs['readonly'] = True
+		form.fields['departure_city'].widget.attrs['readonly'] = True
+		form.fields['arrival_city'].widget.attrs['readonly'] = True
+		form.fields['departure_time'].widget.attrs['readonly'] = True
+		form.fields['arrival_time'].widget.attrs['readonly'] = True
+		return render(request, self.template_name, {'form':form})
 
 
 
